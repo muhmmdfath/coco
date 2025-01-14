@@ -14,7 +14,7 @@ return new class extends Migration {
             $table->id();
             $table->timestamp('timestamp')->useCurrent();
             $table->date('tanggal_sortir');
-            $table->string('part_number', 50);
+            $table->string('rm_number', 50);
             $table->string('lot_number', 50);
             $table->string('jenis_problem', 100);
             $table->string('metode_sortir_rework', 50);

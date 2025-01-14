@@ -14,6 +14,7 @@ class PartData extends Model
     protected $fillable = [
         'timestamp',
         'tanggal_sortir',
+        'part_number',
         'lot_number',
         'jenis_problem',
         'metode_sortir_rework',
