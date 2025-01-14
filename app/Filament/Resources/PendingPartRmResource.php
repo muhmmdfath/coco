@@ -16,6 +16,7 @@ use App\Models\RmData;
 
 class PendingPartRmResource extends Resource
 {
+
     protected static ?string $navigationIcon = 'heroicon-o-clock';
 
     protected static ?string $navigationGroup = 'Data Status';
