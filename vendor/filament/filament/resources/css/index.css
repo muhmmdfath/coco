@@ -1,0 +1,23 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+@import 'tailwindcss/variants';
+
+@import 'base.css';
+
+/* Tema Terang */
+.fi-sidebar-nav {
+  background-color: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Tema Gelap */
+.dark .fi-sidebar-nav {
+  background-color: black;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+}
+
+.fi-sidebar-header{
+  position: relative;
+  z-index: 99;
+}
