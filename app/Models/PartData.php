@@ -25,8 +25,9 @@ class PartData extends Model
         'total_check',
         'total_ok',
         'total_ng',
+        'tanggal_ambil',
+        'target_selesai',
         'remark',
-        'departement_pic_sortir',
         'status'
     ];
 

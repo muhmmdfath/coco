@@ -18,6 +18,7 @@ use Filament\Tables\Filters\Filter;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
 
+
 class PartDataResource extends Resource
 {
     protected static ?string $modelLabel = 'Part Data'; // Label tunggal
@@ -116,38 +117,8 @@ class PartDataResource extends Resource
                     ->dehydrated()
                     ->suffix('detik'),
 
-                Forms\Components\TextInput::make('pic_sortir_rework')
+                Forms\Components\Select::make('pic_sortir_rework')
                     ->label('PIC Sortir/Rework')
-                    ->maxLength(100),
-
-                Forms\Components\TextInput::make('total_ok')
-                    ->label('Total OK')
-                    ->numeric()
-                    ->reactive()
-                    ->afterStateUpdated(function ($set, $state, $get) {
-                        $set('total_check', $state + $get('total_ng'));
-                    }),
-
-                Forms\Components\TextInput::make('total_ng')
-                    ->label('Total NG')
-                    ->numeric()
-                    ->reactive()
-                    ->afterStateUpdated(function ($set, $state, $get) {
-                        $set('total_check', $get('total_ok') + $state);
-                    }),
-
-                Forms\Components\TextInput::make('total_check')
-                    ->label('Total Check')
-                    ->numeric()
-                    ->disabled()
-                    ->dehydrated(),
-
-                Forms\Components\TextInput::make('remark')
-                    ->label('Remark')
-                    ->maxLength(255),
-
-                Forms\Components\Select::make('departement_pic_sortir')
-                    ->label('Departemen PIC Sortir')
                     ->options([
                         'MFG1' => 'MFG1',
                         'PPIC' => 'PPIC',
@@ -155,6 +126,46 @@ class PartDataResource extends Resource
                         'CNC' => 'CNC',
                     ])
                     ->searchable(),
+
+                Forms\Components\TextInput::make('total_ok')
+                    ->label('Total OK')
+                    ->numeric()
+                    ->reactive()
+                    ->extraAttributes(['wire:blur' => '']) // Menambahkan event blur
+                    ->afterStateUpdated(function ($set, $state, $get) {
+                        $totalOk = (int) ($state ?? 0);
+                        $totalNg = (int) ($get('total_ng') ?? 0);
+                        $set('total_check', $totalOk + $totalNg);
+                    }),
+
+                Forms\Components\TextInput::make('total_ng')
+                    ->label('Total NG')
+                    ->numeric()
+                    ->reactive()
+                    ->extraAttributes(['wire:blur' => '']) // Menambahkan event blur
+                    ->afterStateUpdated(function ($set, $state, $get) {
+                        $totalOk = (int) ($get('total_ok') ?? 0);
+                        $totalNg = (int) ($state ?? 0);
+                        $set('total_check', $totalOk + $totalNg);
+                    }),
+
+                Forms\Components\TextInput::make('total_check')
+                    ->label('Total Check')
+                    ->numeric()
+                    ->disabled() // Field ini tidak dapat diubah oleh pengguna
+                    ->dehydrated(),
+
+                Forms\Components\DatePicker::make('tanggal_ambil')
+                    ->label('Tanggal Ambil')
+                    ->required(),
+
+                Forms\Components\DatePicker::make('target_selesai')
+                    ->label('Target_Selesai')
+                    ->required(),
+
+                Forms\Components\TextInput::make('remark')
+                    ->label('Remark')
+                    ->maxLength(255),
 
                 Forms\Components\Select::make('status')
                     ->label('Status')

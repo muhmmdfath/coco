@@ -26,8 +26,9 @@ return new class extends Migration {
             $table->integer('total_check');
             $table->integer('total_ok');
             $table->integer('total_ng');
+            $table->date('tanggal_ambil');
+            $table->date('target_selesai');
             $table->text('remark')->nullable();
-            $table->string('departement_pic_sortir', 100);
             $table->string('status', 20)->default('Pending');
             $table->timestamps();
         });

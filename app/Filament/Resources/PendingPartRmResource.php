@@ -4,6 +4,8 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\PendingPartRmResource\Pages;
 use Filament\Resources\Resource;
+use App\Models\PartData;
+use App\Models\RmData;
 
 class PendingPartRmResource extends Resource
 {
@@ -18,6 +20,17 @@ class PendingPartRmResource extends Resource
         ];
     }
 
+    public static function getNavigationBadge(): ?string
+    {
+        $partCount = PartData::where('status', 'Pending')->count();
+        $rmCount = RmData::where('status', 'Pending')->count();
 
+        return $partCount + $rmCount;
+    }
+
+    public static function getNavigationBadgeColor(): ?string
+    {
+        return 'gray';
+    }
 
 }
