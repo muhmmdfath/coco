@@ -33,7 +33,7 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->navigationGroups([
                 NavigationGroup::make('Input Data'),
-                NavigationGroup::make('View Data')
+                NavigationGroup::make('Data Status'),
             ])
             ->brandName('Sortir QC')
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')

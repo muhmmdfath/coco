@@ -17,6 +17,9 @@ use Filament\Tables\Columns;
 class RMDataResource extends Resource
 {
     protected static ?string $model = RMData::class;
+    protected static ?string $modelLabel = 'RM Data'; // Label tunggal
+    protected static ?string $pluralModelLabel = 'RM Data'; // Label jamak
+    // protected static ?string $breadcrumb = 'RM Data'; // Label di breadcrumb
 
     protected static ?string $navigationLabel = 'RM Data Input';
     public static function getNavigationGroup(): ?string
@@ -33,8 +36,8 @@ class RMDataResource extends Resource
                     ->label('Tanggal Sortir')
                     ->required(),
 
-                Forms\Components\TextInput::make('part_number')
-                    ->label('Part Number')
+                Forms\Components\TextInput::make('rm_number')
+                    ->label('RM Number')
                     ->required()
                     ->maxLength(50),
 
@@ -182,7 +185,7 @@ class RMDataResource extends Resource
         return $table
             ->columns([
                 Columns\TextColumn::make('tanggal_sortir')->sortable(),
-                Columns\TextColumn::make('part_number')->sortable(),
+                Columns\TextColumn::make('rm_number')->sortable(),
                 Columns\TextColumn::make('lot_number')->sortable(),
                 Columns\TextColumn::make('jenis_problem')->sortable(),
                 // Columns\TextColumn::make('status')->sortable(),
@@ -206,9 +209,6 @@ class RMDataResource extends Resource
                 Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
-                // Tables\Actions\BulkActionGroup::make([
-                //     Tables\Actions\DeleteBulkAction::make(),
-                // ])->label('Actions'),
                 Tables\Actions\DeleteBulkAction::make(),
             ]);
     }

@@ -20,6 +20,9 @@ use Filament\Forms\Components\Select;
 
 class PartDataResource extends Resource
 {
+    protected static ?string $modelLabel = 'Part Data'; // Label tunggal
+    protected static ?string $pluralModelLabel = 'Part Data'; // Label jamak
+    protected static ?string $breadcrumb = 'Part Data'; // Label di breadcrumb
     protected static ?string $model = PartData::class;
     public static function getNavigationGroup(): ?string
     {
