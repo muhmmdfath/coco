@@ -18,7 +18,7 @@ class ApprovedRMTableWidget extends BaseWidget
     protected function getTableColumns(): array
     {
         return [
-            Tables\Columns\TextColumn::make('part_number')->label('Part Number'),
+            Tables\Columns\TextColumn::make('rm_number')->label('RM Number'),
             Tables\Columns\TextColumn::make('lot_number')->label('Lot Number'),
             Tables\Columns\BadgeColumn::make('status')
                 ->colors([

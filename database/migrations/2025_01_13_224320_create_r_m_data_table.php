@@ -21,6 +21,7 @@ return new class extends Migration {
             $table->string('line', 50);
             $table->time('jam_mulai');
             $table->time('jam_selesai');
+            $table->string('total_jam');
             $table->string('pic_sortir_rework', 100);
             $table->integer('total_check');
             $table->integer('diameter_besar');

@@ -4,7 +4,6 @@ namespace App\Filament\Pages;
 
 use App\Filament\Widgets\StatsOverview;
 use App\Filament\Widgets\StatsRMOverview;
-use App\Filament\Widgets\StatusChart;
 use Filament\Pages\Page;
 
 class Dashboard extends Page

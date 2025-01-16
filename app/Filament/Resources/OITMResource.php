@@ -35,8 +35,18 @@ class OITMResource extends Resource
             ])
             ->filters([
                 //
-            ]);
+            ])
+            ->paginated(10);
     }
+
+
+
+
+    // public static function table(Tables\Table $table): Tables\Table
+    // {
+    //     dd(OITM::all()->take(10)); // Hanya untuk debug
+    // }
+
 
     public static function getPages(): array
     {

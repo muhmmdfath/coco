@@ -84,7 +84,8 @@ class PartDataResource extends Resource
                         'WH' => 'WH',
                         'MFG1, WH' => 'MFG1, WH',
                     ])
-                    ->searchable(),
+                    ->searchable()
+                    ->required(),
 
                 Forms\Components\TimePicker::make('jam_mulai')
                     ->label('Jam Mulai')
@@ -167,14 +168,14 @@ class PartDataResource extends Resource
                     ->label('Remark')
                     ->maxLength(255),
 
-                Forms\Components\Select::make('status')
-                    ->label('Status')
-                    ->options([
-                        'Pending' => 'Pending',
-                        'Approved' => 'Approved',
-                        'Disapproved' => 'Disapproved',
-                    ])
-                    ->required(),
+                // Forms\Components\Select::make('status')
+                //     ->label('Status')
+                //     ->options([
+                //         'Pending' => 'Pending',
+                //         'Approved' => 'Approved',
+                //         'Disapproved' => 'Disapproved',
+                //     ])
+                //     ->required(),
             ]);
     }
 

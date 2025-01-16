@@ -21,6 +21,7 @@ class PartData extends Model
         'line',
         'jam_mulai',
         'jam_selesai',
+        'total_jam',
         'pic_sortir_rework',
         'total_check',
         'total_ok',
