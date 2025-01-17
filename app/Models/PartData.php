@@ -19,9 +19,9 @@ class PartData extends Model
         'jenis_problem',
         'metode_sortir_rework',
         'line',
-        'jam_mulai',
-        'jam_selesai',
-        'total_jam',
+        'waktu_mulai',
+        'waktu_selesai',
+        'total_waktu',
         'pic_sortir_rework',
         'total_check',
         'total_ok',
@@ -35,4 +35,16 @@ class PartData extends Model
     protected $attributes = [
         'status' => 'Pending',
     ];
+
+    // public function getFormattedTotalTimeAttribute()
+    // {
+    //     $totalSeconds = (int) $this->total_jam;
+    //     $days = floor($totalSeconds / 86400); // 1 hari = 86400 detik
+    //     $hours = floor(($totalSeconds % 86400) / 3600); // Sisa detik dibagi 3600
+    //     $minutes = floor(($totalSeconds % 3600) / 60); // Sisa detik dibagi 60
+    //     $seconds = $totalSeconds % 60; // Sisa detik
+
+    //     return sprintf('%d hari %d jam %d menit %d detik', $days, $hours, $minutes, $seconds);
+    // }
+
 }

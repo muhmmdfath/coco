@@ -3,7 +3,6 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\PartDataResource\Pages;
-use App\Filament\Resources\PartDataResource\RelationManagers;
 use App\Models\PartData;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -11,7 +10,6 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\Carbon;
 use Filament\Tables\Columns;
 use Filament\Tables\Filters\Filter;
@@ -87,36 +85,38 @@ class PartDataResource extends Resource
                     ->searchable()
                     ->required(),
 
-                Forms\Components\TimePicker::make('jam_mulai')
-                    ->label('Jam Mulai')
+                Forms\Components\DateTimePicker::make('waktu_mulai')
+                    ->label('Waktu Mulai')
                     ->required()
                     ->reactive()
                     ->afterStateUpdated(function (callable $set, $get) {
                         if ($get('jam_selesai')) {
-                            $jamMulai = \Carbon\Carbon::parse($get('jam_mulai'));
-                            $jamSelesai = \Carbon\Carbon::parse($get('jam_selesai'));
-                            $set('total_jam', $jamMulai->diffInSeconds($jamSelesai));
+                            $jamMulai = \Carbon\Carbon::parse($get('waktu_mulai'));
+                            $jamSelesai = \Carbon\Carbon::parse($get('waktu_selesai'));
+                            $set('total_waktu', $jamMulai->diffInSeconds($jamSelesai));
                         }
                     }),
 
-                Forms\Components\TimePicker::make('jam_selesai')
-                    ->label('Jam Selesai')
+                Forms\Components\DateTimePicker::make('waktu_selesai')
+                    ->label('Waktu Selesai')
                     ->required()
                     ->reactive()
                     ->afterStateUpdated(function (callable $set, $get) {
-                        if ($get('jam_mulai')) {
-                            $jamMulai = \Carbon\Carbon::parse($get('jam_mulai'));
-                            $jamSelesai = \Carbon\Carbon::parse($get('jam_selesai'));
-                            $set('total_jam', $jamMulai->diffInSeconds($jamSelesai));
+                        if ($get('waktu_mulai')) {
+                            $jamMulai = \Carbon\Carbon::parse($get('waktu_mulai'));
+                            $jamSelesai = \Carbon\Carbon::parse($get('waktu_selesai'));
+                            $set('total_waktu', $jamMulai->diffInSeconds($jamSelesai));
                         }
                     }),
 
-                Forms\Components\TextInput::make('total_jam')
-                    ->label('Total Jam (Detik)')
+                Forms\Components\TextInput::make('total_waktu')
+                    ->label('Total Waktu (Detik)')
                     ->numeric()
                     ->disabled()
                     ->dehydrated()
                     ->suffix('detik'),
+
+
 
                 Forms\Components\Select::make('pic_sortir_rework')
                     ->label('PIC Sortir/Rework')
@@ -187,6 +187,26 @@ class PartDataResource extends Resource
                 Columns\TextColumn::make('part_number')->sortable(),
                 Columns\TextColumn::make('lot_number')->sortable(),
                 Columns\TextColumn::make('jenis_problem')->sortable(),
+                Columns\TextColumn::make('total_waktu')
+                    ->label('Total Waktu')
+                    ->formatStateUsing(function ($record) {
+                        $jamMulai = \Carbon\Carbon::parse($record->waktu_mulai);
+                        $jamSelesai = \Carbon\Carbon::parse($record->waktu_selesai);
+
+                        if ($record->waktu_mulai && $record->waktu_selesai) {
+                            $totalSeconds = $jamMulai->diffInSeconds($jamSelesai);
+
+                            // Konversi ke format hari, jam, menit, detik
+                            $days = floor($totalSeconds / (24 * 3600));
+                            $hours = floor(($totalSeconds % (24 * 3600)) / 3600);
+                            $minutes = floor(($totalSeconds % 3600) / 60);
+                            $seconds = $totalSeconds % 60;
+
+                            return "{$days}h {$hours}j {$minutes}m {$seconds}d";
+                        }
+
+                        return '-';
+                    }),
                 Columns\TextColumn::make('status')
                     ->badge()
                     ->color(fn(string $state): string => match ($state) {

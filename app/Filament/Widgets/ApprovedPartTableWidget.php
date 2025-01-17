@@ -62,9 +62,10 @@ class ApprovedPartTableWidget extends BaseWidget
                 ->action(function ($records) {
                     $data = $records->toArray();
 
-                    $pdf = Pdf::loadView('exports.approved_part_data_pdf', [
+                    $pdf = Pdf::loadView('exports.part_data_export_pdf', [
                         'data' => $data,
                         'exportDate' => now()->format('Y-m-d H:i:s'),
+                        'title' => 'Approved Part Data',
                     ])->setPaper([0, 0, 1920, 1080], 'landscape');
 
                     return response()->streamDownload(
