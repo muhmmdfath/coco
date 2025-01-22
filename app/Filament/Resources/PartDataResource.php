@@ -15,6 +15,8 @@ use Filament\Tables\Columns;
 use Filament\Tables\Filters\Filter;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
+use Illuminate\Support\Facades\Cache;
+
 
 
 class PartDataResource extends Resource
@@ -38,10 +40,39 @@ class PartDataResource extends Resource
                     ->label('Tanggal Sortir')
                     ->required(),
 
-                Forms\Components\TextInput::make('part_number')
+                // Forms\Components\TextInput::make('part_number')
+                //     ->label('Part Number')
+                //     ->required()
+                //     ->maxLength(50),
+
+                // Forms\Components\LiveSearchField::make('item_code')
+                //     ->label('Item Code')
+                //     ->placeholder('Search Item Code...')
+                //     ->required(),
+
+                Forms\Components\Select::make('part_number')
                     ->label('Part Number')
-                    ->required()
-                    ->maxLength(50),
+                    ->searchable()
+                    ->getSearchResultsUsing(function (string $search) {
+                        // Query ke SQL Server
+                        return Cache::remember("oitm_search_{$search}", 300, function () use ($search) {
+                            return \DB::connection('sqlsrv')
+                                ->table('OITM')
+                                ->where('ItemCode', 'like', "%{$search}%")
+                                ->orWhere('ItemName', 'like', "%{$search}%")
+                                ->limit(10)
+                                ->pluck('ItemCode', 'ItemCode');
+                        });
+                    })
+                    ->getOptionLabelUsing(function ($value) {
+                        // Dapatkan label untuk value yang dipilih
+                        return \DB::connection('sqlsrv')
+                            ->table('OITM')
+                            ->where('ItemCode', $value)
+                            ->value('ItemCode');
+                    })
+                    ->required(),
+
 
                 Forms\Components\TextInput::make('lot_number')
                     ->label('LOT Number')
@@ -61,6 +92,18 @@ class PartDataResource extends Resource
                         'Rusty, Scratch, Bending, Dented' => 'Rusty, Scratch, Bending, Dented',
                         'Lainnya' => 'Lainnya',
                     ])
+                    ->createOptionForm([
+                        Forms\Components\TextInput::make('jenis_problem')
+                            ->required()
+                            ->maxLength(255)
+                            ->label('Jenis Problem Baru')
+                    ])
+                    ->createOptionAction(function (Forms\Components\Actions\Action $action) {
+                        return $action
+                            ->modalHeading('Tambah Jenis Problem Baru')
+                            ->modalButton('Tambah Problem')
+                            ->modalWidth('md');
+                    })
                     ->searchable()
                     ->placeholder('Pilih jenis problem')
                     ->required(),

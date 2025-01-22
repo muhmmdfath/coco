@@ -42,6 +42,11 @@ class ApprovedPartTableWidget extends BaseWidget
                 ->button()
                 ->requiresConfirmation()
                 ->action(fn(PartData $record) => $record->update(['status' => 'Disapproved'])),
+            Tables\Actions\ViewAction::make()
+                ->modalHeading('View Record Details')
+                ->modalContent(fn(PartData $record) => view('filament.resources.view-part', [
+                    'record' => $record,
+                ]))
         ];
     }
 
