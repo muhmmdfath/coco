@@ -18,10 +18,19 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Filament\Navigation\NavigationGroup;
+use Filament\Support\Facades\FilamentAsset;
+use Filament\Support\Assets\Script;
 class AdminPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
+        FilamentAsset::register(
+            [
+                Script::make('html5-qrcode', 'https://unpkg.com/html5-qrcode@2.3.8/minified/html5-qrcode.min.js'),
+                Script::make('qr-scanner', __DIR__ . '/../../../../public/js/qr-scanner.js'),
+            ],
+            'app' // Nama package/plugin Anda
+        );
         return $panel
             ->sidebarCollapsibleOnDesktop()
             ->default()

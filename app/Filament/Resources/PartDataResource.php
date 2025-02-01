@@ -16,6 +16,8 @@ use Filament\Tables\Filters\Filter;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
 use Illuminate\Support\Facades\Cache;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Actions\Action;
 
 
 
@@ -74,10 +76,19 @@ class PartDataResource extends Resource
                     ->required(),
 
 
-                Forms\Components\TextInput::make('lot_number')
+                TextInput::make('lot_number')
                     ->label('LOT Number')
                     ->required()
-                    ->maxLength(50),
+                    ->maxLength(50)
+                    ->extraAttributes(['id' => 'lot_number_input']), // Tambahkan ID agar bisa diisi otomatis dari scanner
+
+                Action::make('Scan QR')
+                    ->label('📷 Scan QR Code')
+                    ->action(fn() => null)
+                    ->extraAttributes([
+                        'type' => 'button',
+                        'onclick' => 'startQrScanner()'
+                    ]),
 
                 Forms\Components\Select::make('jenis_problem')
                     ->label('Jenis Problem')
